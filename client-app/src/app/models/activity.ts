@@ -7,3 +7,7 @@ export interface IActivity {
   city: string;
   venue: string;
 }
+
+export interface IProp {
+  activities: IActivity[];
+}
