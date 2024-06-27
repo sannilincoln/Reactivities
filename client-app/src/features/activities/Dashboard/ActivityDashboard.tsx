@@ -5,21 +5,42 @@ import ActivityDetails from '../details/ActivityDetails';
 import ActivityForm from '../form/ActivityForm';
 
 
+interface IActivityDashboard extends IProp{
+selectedActivity: IActivity | undefined;
+selectActivity: (id: string) => void;
+cancelSelectActivity: () => void;
+editMode:boolean
+openForm:(id:string) => void
+closeForm: () => void
+}
 
 
-
-const ActivityDashboard = ({activities}:IProp) => {
+const ActivityDashboard = ({activities,selectActivity,selectedActivity,cancelSelectActivity,editMode,closeForm,openForm}:IActivityDashboard) => {
   return (
     <Grid>
       <Grid.Column width="10">
-        <ActivityList activities={activities}/>
+        <ActivityList 
+        activities={activities} 
+        selectActivity ={selectActivity}
+        />
       </Grid.Column>
       <Grid.Column width="6">
-       { 
-       activities[0] &&
-       <ActivityDetails activity={activities[0]}/>
-       }
-       <ActivityForm/>
+        {
+        selectedActivity && 
+        <ActivityDetails 
+        activity={selectedActivity} 
+        cancelSelectActivity={cancelSelectActivity}
+        openForm ={openForm}
+        />
+        }
+        {
+          editMode &&
+          <ActivityForm 
+          closeForm={closeForm}
+          activity={selectedActivity}
+          />
+
+        }
       </Grid.Column>
     </Grid>
   );
