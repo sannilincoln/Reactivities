@@ -4,10 +4,11 @@ import { IProp } from "../../../app/models/activity";
 
 interface IActivityList extends IProp {
   selectActivity: (id: string) => void;
+  deleteActivity: (id: string) => void;
 }
 
 
-const ActivityList = ({ activities,selectActivity }: IActivityList) => {
+const ActivityList = ({ activities,selectActivity, deleteActivity}: IActivityList) => {
   return <div>
         <Segment>
             <Item.Group divided>
@@ -22,6 +23,7 @@ const ActivityList = ({ activities,selectActivity }: IActivityList) => {
                             </Item.Description>
                             <Item.Extra>
                                 <Button onClick={() => selectActivity(activity.id)} floated="right" content='View' color="blue"/>
+                                <Button onClick={() => deleteActivity(activity.id)} floated="right" content='Delete' color="red"/>
                                 <Label basic content={activity.category}/>
                             </Item.Extra>
                         </Item.Content>

@@ -5,11 +5,13 @@ import { ChangeEvent, useState } from "react";
 interface IActivityForm {
   activity: IActivity | undefined;
   closeForm: () => void;
+  createOrEdit: (activity: IActivity) => void;
 }
 
 const ActivityForm = ({
   activity: selectedActivity,
   closeForm,
+  createOrEdit,
 }: IActivityForm) => {
   const initialState = selectedActivity ?? {
     id: "",
@@ -23,7 +25,7 @@ const ActivityForm = ({
   const [activity, setActivity] = useState(initialState);
 
   const handleSubmit = () => {
-    console.log(activity);
+    createOrEdit(activity);
   };
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,37 +40,37 @@ const ActivityForm = ({
         <Form.Input
           placeholder="Title"
           value={activity.title}
-          name="Title"
+          name="title"
           onChange={handleInputChange}
         />
         <Form.TextArea
           placeholder="Description"
           value={activity.description}
-          name="Description"
+          name="description"
           onChange={handleInputChange}
         />
         <Form.Input
           placeholder="Category"
           value={activity.category}
-          name="Category"
+          name="category"
           onChange={handleInputChange}
         />
         <Form.Input
           placeholder="Date"
           value={activity.date}
-          name="Date"
+          name="date"
           onChange={handleInputChange}
         />
         <Form.Input
           placeholder="City"
           value={activity.city}
-          name="City"
+          name="city"
           onChange={handleInputChange}
         />
         <Form.Input
           placeholder="Venue"
           value={activity.venue}
-          name="Venue"
+          name="venue"
           onChange={handleInputChange}
         />
         <Button floated="right" positive type="submit" content="Submit" />
