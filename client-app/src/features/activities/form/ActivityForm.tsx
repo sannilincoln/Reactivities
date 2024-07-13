@@ -6,12 +6,14 @@ interface IActivityForm {
   activity: IActivity | undefined;
   closeForm: () => void;
   createOrEdit: (activity: IActivity) => void;
+  submitting: boolean;
 }
 
 const ActivityForm = ({
   activity: selectedActivity,
   closeForm,
   createOrEdit,
+  submitting,
 }: IActivityForm) => {
   const initialState = selectedActivity ?? {
     id: "",
@@ -74,7 +76,13 @@ const ActivityForm = ({
           name="venue"
           onChange={handleInputChange}
         />
-        <Button floated="right" positive type="submit" content="Submit" />
+        <Button
+          loading={submitting}
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+        />
         <Button
           onClick={() => closeForm()}
           floated="right"

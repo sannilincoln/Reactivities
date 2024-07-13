@@ -1,4 +1,4 @@
-import { Grid, List } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import { IActivity, IProp } from "../../../app/models/activity";
 import ActivityList from "./ActivityList";
 import ActivityDetails from "../details/ActivityDetails";
@@ -13,6 +13,7 @@ interface IActivityDashboard extends IProp {
   closeForm: () => void;
   createOrEdit: (activity: IActivity) => void;
   deleteActivity: (id: string) => void;
+  submitting: boolean;
 }
 
 const ActivityDashboard = ({
@@ -25,6 +26,7 @@ const ActivityDashboard = ({
   openForm,
   createOrEdit,
   deleteActivity,
+  submitting,
 }: IActivityDashboard) => {
   return (
     <Grid>
@@ -33,6 +35,7 @@ const ActivityDashboard = ({
           activities={activities}
           selectActivity={selectActivity}
           deleteActivity={deleteActivity}
+          submitting={submitting}
         />
       </Grid.Column>
       <Grid.Column width="6">
@@ -48,6 +51,7 @@ const ActivityDashboard = ({
             closeForm={closeForm}
             activity={selectedActivity}
             createOrEdit={createOrEdit}
+            submitting={submitting}
           />
         )}
       </Grid.Column>
