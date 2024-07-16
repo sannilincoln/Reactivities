@@ -1,19 +1,20 @@
 import { Button, Item, Label, Segment } from "semantic-ui-react";
 import { IProp } from "../../../app/models/activity";
 import { SyntheticEvent, useState } from "react";
+import { useStore } from "../../../app/stores/stores";
 
 interface IActivityList extends IProp {
-  selectActivity: (id: string) => void;
   deleteActivity: (id: string) => void;
   submitting: boolean;
 }
 
 const ActivityList = ({
   activities,
-  selectActivity,
   deleteActivity,
   submitting,
 }: IActivityList) => {
+  const { activityStore } = useStore();
+  const { selectActivity } = activityStore;
   const [target, setTarget] = useState("");
 
   const handleActivityDelete = (

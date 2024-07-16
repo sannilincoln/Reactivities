@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import { IActivity } from "../models/activity";
 import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/Dashboard/ActivityDashboard";
@@ -12,38 +12,12 @@ import { observer } from "mobx-react-lite";
 function App() {
   const { activityStore } = useStore();
   const [activities, setActivities] = useState<IActivity[]>([]);
-  const [selectedActivity, setSelectedActivity] = useState<
-    IActivity | undefined
-  >(undefined);
-  const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(true);
+
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    agent.Activities.list().then((res) => {
-      const newActivities: IActivity[] = [];
-      res.forEach((x) => {
-        x.date = x.date.split("T")[0];
-        newActivities.push(x);
-      });
-      setActivities(newActivities);
-      setLoading(false);
-    });
-  }, []);
-
-  const handleSelectActivity = (id: string) => {
-    setSelectedActivity(activities.find((x) => id === x.id));
-  };
-  const handleCancelActivity = () => {
-    setSelectedActivity(undefined);
-  };
-  const handleFormOpen = (id?: string) => {
-    id ? handleSelectActivity(id) : handleCancelActivity();
-    setEditMode(true);
-  };
-  const handleFormClose = () => {
-    setEditMode(false);
-  };
+    activityStore.loadActivities();
+  }, [activityStore]);
 
   const handleCreateOrEditActivity = (activity: IActivity) => {
     setSubmitting(true);
@@ -75,26 +49,15 @@ function App() {
     });
   };
 
-  if (loading) return <LoadingComponent content="Loading App" />;
+  if (activityStore.loadingInitial)
+    return <LoadingComponent content="Loading App" />;
 
   return (
     <>
-      <NavBar openForm={handleFormOpen} />
+      <NavBar />
       <Container style={{ marginTop: "7em" }}>
-        <h2>{activityStore.title}</h2>
-        <Button
-          content="Add exclam !"
-          positive
-          onClick={activityStore.setTitle}
-        />
         <ActivityDashboard
-          activities={activities}
-          selectedActivity={selectedActivity}
-          selectActivity={handleSelectActivity}
-          cancelSelectActivity={handleCancelActivity}
-          editMode={editMode}
-          openForm={handleFormOpen}
-          closeForm={handleFormClose}
+          activities={activityStore.activities}
           createOrEdit={handleCreateOrEditActivity}
           deleteActivity={handleDelete}
           submitting={submitting}
